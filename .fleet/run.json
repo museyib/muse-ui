@@ -1,0 +1,9 @@
+{
+    "configurations": [
+        {
+            "type": "maven-run",
+            "name": "Run",
+            "mainClass": "org.example.Main"
+        }
+    ]
+}
