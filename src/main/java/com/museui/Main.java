@@ -11,6 +11,12 @@ public class Main {
         window.setClickListener((event) -> {
             System.out.println("Clicked: " + event);
         });
+        Button button = new Button("Button");
+        button.setBounds(100, 100, 500, 100);
+        button.setClickListener((event) -> {
+            System.out.println("Clicked on button: " + event);
+        });
+        window.addComponent(button);
         window.show();
     }
 }

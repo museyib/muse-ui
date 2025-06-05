@@ -7,6 +7,9 @@ static JavaVM* g_vm  = NULL;
 static jclass g_nativeWindowClass = NULL;
 static jobject g_windowInstance = NULL;
 static jmethodID g_onClickMethod = NULL;
+static jmethodID g_onMouseMoveMethod = NULL;
+static jmethodID g_onMouseDownMethod = NULL;
+static jmethodID g_onMouseUpMethod = NULL;
 
 JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM* vm, void* reserved) {
     g_vm = vm;
@@ -78,6 +81,35 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
             if ((*g_vm)->AttachCurrentThread(g_vm, (void**)&env, NULL) == 0) {
                 if (g_windowInstance && g_onClickMethod) {
                     (*env)->CallVoidMethod(env, g_windowInstance, g_onClickMethod, x, y);
+                }
+                if (g_windowInstance && g_onMouseDownMethod) {
+                    (*env)->CallVoidMethod(env, g_windowInstance, g_onMouseDownMethod, x, y);
+                }
+            }
+
+            return 0;
+        }
+        case WM_MOUSEMOVE: {
+            int x = LOWORD(lParam);
+            int y = HIWORD(lParam);
+
+            JNIEnv* env;
+            if ((*g_vm)->AttachCurrentThread(g_vm, (void**)&env, NULL) == 0) {
+                if (g_windowInstance && g_onMouseMoveMethod) {
+                    (*env)->CallVoidMethod(env, g_windowInstance, g_onMouseMoveMethod, x, y);
+                }
+            }
+
+            return 0;
+        }
+        case WM_LBUTTONUP: {
+            int x = LOWORD(lParam);
+            int y = HIWORD(lParam);
+
+            JNIEnv* env;
+            if ((*g_vm)->AttachCurrentThread(g_vm, (void**)&env, NULL) == 0) {
+                if (g_windowInstance && g_onMouseUpMethod) {
+                    (*env)->CallVoidMethod(env, g_windowInstance, g_onMouseUpMethod, x, y);
                 }
             }
 
@@ -177,8 +209,20 @@ JNIEXPORT void JNICALL Java_com_museui_nativebase_NativeWindow_registerInstance(
     g_windowInstance = (*env)->NewGlobalRef(env, thisObj);
     jclass cls = (*env)->GetObjectClass(env, g_windowInstance);
     g_onClickMethod = (*env)->GetMethodID(env, cls, "onMouseClick", "(II)V");
+    g_onMouseMoveMethod = (*env)->GetMethodID(env, cls, "onMouseMove", "(II)V");
+    g_onMouseDownMethod = (*env)->GetMethodID(env, cls, "onMouseDown", "(II)V");
+    g_onMouseUpMethod = (*env)->GetMethodID(env, cls, "onMouseUp", "(II)V");
 
     if(g_onClickMethod == NULL) {
         MessageBoxA(NULL, "Failed to find onMouseClick(int, int)", "Error", MB_OK);
+    }
+    if(g_onMouseMoveMethod == NULL) {
+        MessageBoxA(NULL, "Failed to find onMouseMove(int, int)", "Error", MB_OK);
+    }
+    if(g_onMouseDownMethod == NULL) {
+        MessageBoxA(NULL, "Failed to find onMouseDown(int, int)", "Error", MB_OK);
+    }
+    if(g_onMouseUpMethod == NULL) {
+        MessageBoxA(NULL, "Failed to find onMouseUp(int, int)", "Error", MB_OK);
     }
 }
