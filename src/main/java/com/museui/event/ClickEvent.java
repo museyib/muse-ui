@@ -1,5 +1,6 @@
 package com.museui.event;
 
+@SuppressWarnings("unused")
 public class ClickEvent extends MouseEvent {
     private final int button;
 

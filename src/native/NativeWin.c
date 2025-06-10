@@ -1,6 +1,6 @@
 #include <windows.h>
 #include <stdint.h>
-#include "com_museui_nativebase_NativeWindow.h"
+#include "com_museui_component_NativeWindow.h"
 
 static const wchar_t *CLASS_NAME = L"JNI_Window_Class";
 static JavaVM* g_vm  = NULL;
@@ -19,7 +19,7 @@ JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM* vm, void* reserved) {
         return JNI_ERR;
     }
 
-    jclass cls = (*env)->FindClass(env, "com/museui/nativebase/NativeWindow");
+    jclass cls = (*env)->FindClass(env, "com/museui/component/NativeWindow");
     if (cls == NULL) return JNI_ERR;
 
     g_nativeWindowClass = (*env)->NewGlobalRef(env, cls);
@@ -134,7 +134,7 @@ static void ensure_class_registered() {
 }
 
 /* JNI: createWindow */
-JNIEXPORT jlong JNICALL Java_com_museui_nativebase_NativeWindow_createWindow(JNIEnv *env, jclass cls,
+JNIEXPORT jlong JNICALL Java_com_museui_component_NativeWindow_createWindow(JNIEnv *env, jclass cls,
                                     jint width, jint height, jstring jtitle) {
     ensure_class_registered();
 
@@ -157,7 +157,7 @@ JNIEXPORT jlong JNICALL Java_com_museui_nativebase_NativeWindow_createWindow(JNI
 }
 
 /* JNI: setPixel */
-JNIEXPORT void JNICALL Java_com_museui_nativebase_NativeWindow_setPixel(JNIEnv *env, jclass cls,
+JNIEXPORT void JNICALL Java_com_museui_component_NativeWindow_setPixel(JNIEnv *env, jclass cls,
                                 jlong hwndLong, jint x, jint y, jint argb) {
     HWND hWnd = (HWND)(intptr_t)hwndLong;
     HDC  hdc  = GetDC(hWnd);
@@ -169,7 +169,7 @@ JNIEXPORT void JNICALL Java_com_museui_nativebase_NativeWindow_setPixel(JNIEnv *
 }
 
 /* JNI: messageLoop */
-JNIEXPORT void JNICALL Java_com_museui_nativebase_NativeWindow_messageLoop(JNIEnv *env, jclass cls) {
+JNIEXPORT void JNICALL Java_com_museui_component_NativeWindow_messageLoop(JNIEnv *env, jclass cls) {
     MSG msg;
     while (GetMessage(&msg, NULL, 0, 0)) {
         TranslateMessage(&msg);
@@ -177,7 +177,7 @@ JNIEXPORT void JNICALL Java_com_museui_nativebase_NativeWindow_messageLoop(JNIEn
     }
 }
 
-JNIEXPORT void JNICALL Java_com_museui_nativebase_NativeWindow_blitFrameBuffer(JNIEnv* env, jclass cls, jlong hwndLong, jintArray pixelArray, jint width, jint height)  {
+JNIEXPORT void JNICALL Java_com_museui_component_NativeWindow_blitFrameBuffer(JNIEnv* env, jclass cls, jlong hwndLong, jintArray pixelArray, jint width, jint height)  {
     HWND hWnd = (HWND)(intptr_t)hwndLong;
     HDC hdc = GetDC(hWnd);
 
@@ -200,7 +200,7 @@ JNIEXPORT void JNICALL Java_com_museui_nativebase_NativeWindow_blitFrameBuffer(J
     ReleaseDC(hWnd, hdc);
 }
 
-JNIEXPORT void JNICALL Java_com_museui_nativebase_NativeWindow_registerInstance(JNIEnv* env, jobject thisObj) {
+JNIEXPORT void JNICALL Java_com_museui_component_NativeWindow_registerInstance(JNIEnv* env, jobject thisObj) {
     if(g_windowInstance) {
         (*env)->DeleteGlobalRef(env, g_windowInstance);
         g_windowInstance = NULL;

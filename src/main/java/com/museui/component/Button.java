@@ -1,11 +1,14 @@
-package com.museui;
+package com.museui.component;
 
-import static com.museui.Color.*;
+import com.museui.toolkit.Color;
+import com.museui.toolkit.Font;
+import com.museui.toolkit.GraphicsContext;
 
+import static com.museui.toolkit.Color.*;
+
+@SuppressWarnings("unused")
 public class Button extends BaseComponent {
     private String text;
-    private boolean hovered;
-    private boolean pressed;
 
 
     public Button(String text) {
@@ -27,7 +30,7 @@ public class Button extends BaseComponent {
         g.fillRect(x, y, width, height, bg);
         g.drawRect(x, y, width, height, foreground);
 
-        int textX = x+ (width - text.length() * (Font.CHAR_WIDTH + 1)) / 2;
+        int textX = x + (width - text.length() * (Font.CHAR_WIDTH + 1)) / 2;
         int textY = y + (height - Font.CHAR_HEIGHT) / 2;
         g.drawString(text, textX, textY, foreground);
     }
@@ -38,21 +41,5 @@ public class Button extends BaseComponent {
 
     public void setText(String text) {
         this.text = text;
-    }
-
-    public boolean isHovered() {
-        return hovered;
-    }
-
-    public void setHovered(boolean hovered) {
-        this.hovered = hovered;
-    }
-
-    public boolean isPressed() {
-        return pressed;
-    }
-
-    public void setPressed(boolean pressed) {
-        this.pressed = pressed;
     }
 }

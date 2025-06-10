@@ -1,13 +1,15 @@
-package com.museui;
+package com.museui.component;
 
 import com.museui.listener.ClickListener;
 import com.museui.listener.EventListener;
 import com.museui.listener.KeyListener;
-import com.museui.listener.MouseMoveListener;
+import com.museui.listener.MouseListener;
+import com.museui.toolkit.GraphicsContext;
 
+@SuppressWarnings("unused")
 public interface Component {
     void setClickListener(ClickListener clickListener);
-    void setMouseMoveListener(MouseMoveListener mouseMoveListener);
+    void setMouseListener(MouseListener mouseListener);
     void setKeyListener(KeyListener keyListener);
     void removeListener(Class<? extends EventListener> type);
     void render(GraphicsContext g);

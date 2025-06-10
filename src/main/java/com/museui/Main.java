@@ -1,6 +1,9 @@
 package com.museui;
 
-import com.museui.nativebase.NativeWindow;
+import com.museui.component.Button;
+import com.museui.component.NativeWindow;
+import com.museui.event.MouseEvent;
+import com.museui.listener.MouseAdapter;
 
 public class Main {
     public static void main(String[] args) {
@@ -8,13 +11,13 @@ public class Main {
         int width = 800;
         int height = 600;
         window.setSize(width, height);
-        window.setClickListener((event) -> {
-            System.out.println("Clicked: " + event);
-        });
         Button button = new Button("Button");
-        button.setBounds(100, 100, 500, 100);
-        button.setClickListener((event) -> {
-            System.out.println("Clicked on button: " + event);
+        button.setBounds(100, 100, 300, 50);
+        button.setMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseDown(MouseEvent e) {
+                System.out.println(e.toString());
+            }
         });
         window.addComponent(button);
         window.show();

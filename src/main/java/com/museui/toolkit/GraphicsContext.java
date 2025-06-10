@@ -1,4 +1,4 @@
-package com.museui;
+package com.museui.toolkit;
 
 public class GraphicsContext {
     private final int width;

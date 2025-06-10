@@ -1,4 +1,4 @@
-package com.museui;
+package com.museui.toolkit;
 
 public class Font {
     public static final int CHAR_WIDTH = 5;

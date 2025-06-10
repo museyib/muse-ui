@@ -1,6 +1,7 @@
 package com.museui.event;
 
-public abstract class MouseEvent {
+@SuppressWarnings("unused")
+public class MouseEvent {
     protected int x;
     protected int y;
 
@@ -23,5 +24,10 @@ public abstract class MouseEvent {
 
     public void setY(int y) {
         this.y = y;
+    }
+
+    @Override
+    public String toString() {
+        return "MouseEvent [x=" + x + ", y=" + y + "]";
     }
 }

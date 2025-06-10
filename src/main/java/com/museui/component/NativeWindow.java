@@ -1,10 +1,6 @@
-package com.museui.nativebase;
+package com.museui.component;
 
-import com.museui.BaseComponent;
-import com.museui.Button;
-import com.museui.Component;
-import com.museui.GraphicsContext;
-import com.museui.event.ClickEvent;
+import com.museui.toolkit.GraphicsContext;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,41 +48,44 @@ public class NativeWindow extends BaseComponent {
         messageLoop();
     }
 
-    private void onMouseClick(int x, int y) {
-        if (clickListener != null)
-            clickListener.clicked(new ClickEvent(x, y, 0));
-    }
-
-    private void onMouseMove(int x, int y) {
+    protected void onMouseClick(int x, int y) {
+        super.onMouseClick(x, y);
         for (Component component : components) {
-            if (component instanceof Button button) {
-                boolean hovered = x >= button.getX() && x < button.getX() + button.getWidth()
-                        && y >= button.getY() && y < button.getY() + button.getHeight();
-                button.setHovered(hovered);
+            if (component instanceof BaseComponent baseComponent) {
+                baseComponent.handleMouseClick(x, y);
             }
         }
         render(graphics);
         repaint();
     }
 
-    private void onMouseDown(int x, int y) {
+    protected void onMouseMove(int x, int y) {
+        super.onMouseMove(x, y);
         for (Component component : components) {
-            if (component instanceof Button button) {
-                boolean pressed = x >= button.getX() && x < button.getX() + button.getWidth()
-                        && y >= button.getY() && y < button.getY() + button.getHeight();
-                button.setPressed(pressed);
+            if (component instanceof BaseComponent baseComponent) {
+                baseComponent.handleMouseMove(x, y);
             }
         }
         render(graphics);
         repaint();
     }
 
-    private void onMouseUp(int x, int y) {
+    protected void onMouseDown(int x, int y) {
+        super.onMouseDown(x, y);
         for (Component component : components) {
-            if (component instanceof Button button) {
-                button.setPressed(false);
-                if (button.getClickListener() != null && button.isHovered())
-                    button.getClickListener().clicked(new ClickEvent(x, y, 0));
+            if (component instanceof BaseComponent baseComponent) {
+                baseComponent.handleMouseDown(x, y);
+            }
+        }
+        render(graphics);
+        repaint();
+    }
+
+    protected void onMouseUp(int x, int y) {
+        super.onMouseUp(x, y);
+        for (Component component : components) {
+            if (component instanceof BaseComponent baseComponent) {
+                baseComponent.handleMouseUp(x, y);
             }
         }
         render(graphics);
